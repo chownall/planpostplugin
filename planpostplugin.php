@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: PlanPost Plugin — Posts planifiés
- * Description: Affiche les articles planifiés (ID, Titre, Date, Date GMT) via une page d’admin et un shortcode.
-\11.0.1
+ * Description: Affiche les articles planifiés (ID, Titre, Date, Date GMT) via une page d'admin et un shortcode.
+\11.0.2
  * Author: PlanPost
  * Text Domain: planpostplugin
  * Requires at least: 5.2
@@ -62,6 +62,7 @@ if (!function_exists('planpostplugin_get_scheduled_posts_table_html')) {
         echo '<th>' . esc_html__('Titre', 'planpostplugin') . '</th>';
         echo '<th>' . esc_html__('Date', 'planpostplugin') . '</th>';
         echo '<th>' . esc_html__('Date GMT', 'planpostplugin') . '</th>';
+        echo '<th>' . esc_html__('Voir', 'planpostplugin') . '</th>';
         echo '</tr></thead>';
         echo '<tbody>';
 
@@ -70,16 +71,29 @@ if (!function_exists('planpostplugin_get_scheduled_posts_table_html')) {
                 $title        = get_the_title($post_id);
                 $post_date    = get_post_field('post_date', $post_id);
                 $post_date_gmt= get_post_field('post_date_gmt', $post_id);
+                $edit_link    = get_edit_post_link($post_id);
+                $view_link    = get_permalink($post_id);
 
                 echo '<tr>';
                 echo '<td>' . esc_html((string) $post_id) . '</td>';
-                echo '<td>' . esc_html($title ?: __('(Sans titre)', 'planpostplugin')) . '</td>';
+                echo '<td>';
+                if ($edit_link) {
+                    echo '<a href="' . esc_url($edit_link) . '">' . esc_html($title ?: __('(Sans titre)', 'planpostplugin')) . '</a>';
+                } else {
+                    echo esc_html($title ?: __('(Sans titre)', 'planpostplugin'));
+                }
+                echo '</td>';
                 echo '<td>' . esc_html($post_date ?: '') . '</td>';
                 echo '<td>' . esc_html($post_date_gmt ?: '') . '</td>';
+                echo '<td>';
+                if ($view_link) {
+                    echo '<a href="' . esc_url($view_link) . '" target="_blank" rel="noopener noreferrer">' . esc_html__('Voir', 'planpostplugin') . '</a>';
+                }
+                echo '</td>';
                 echo '</tr>';
             }
         } else {
-            echo '<tr><td colspan="4">' . esc_html__('Aucun article planifié.', 'planpostplugin') . '</td></tr>';
+            echo '<tr><td colspan="5">' . esc_html__('Aucun article planifié.', 'planpostplugin') . '</td></tr>';
         }
 
         echo '</tbody>';
