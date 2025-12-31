@@ -2,7 +2,7 @@
 /**
  * Plugin Name: PlanPost Plugin — Posts planifiés
  * Description: Affiche les articles planifiés (ID, Titre, Date, Date GMT) via une page d'admin et un shortcode.
-\11.0.4
+ * Version: 1.0.3
  * Author: PlanPost
  * Text Domain: planpostplugin
  * Requires at least: 5.2
@@ -81,17 +81,11 @@ if (!function_exists('planpostplugin_get_scheduled_posts_table_html')) {
             $day_group = 0;
             
             foreach ($query->posts as $post_id) {
-                $post_obj     = get_post($post_id);
-                $post_type    = $post_obj ? $post_obj->post_type : '';
                 $title        = get_the_title($post_id);
                 $post_date    = get_post_field('post_date', $post_id);
                 $post_date_gmt= get_post_field('post_date_gmt', $post_id);
                 $edit_link    = get_edit_post_link($post_id);
                 $view_link    = get_permalink($post_id);
-                
-                // Get post type label
-                $post_type_obj = get_post_type_object($post_type);
-                $post_type_label = $post_type_obj ? $post_type_obj->labels->singular_name : $post_type;
                 
                 // Extract date without time (YYYY-MM-DD) for grouping
                 $current_date = '';
@@ -110,7 +104,6 @@ if (!function_exists('planpostplugin_get_scheduled_posts_table_html')) {
                 
                 echo '<tr class="day-group-' . esc_attr((string) $day_group) . '">';
                 echo '<td>' . esc_html((string) $post_id) . '</td>';
-                echo '<td>' . esc_html($post_type_label) . '</td>';
                 echo '<td>';
                 if ($edit_link) {
                     echo '<a href="' . esc_url($edit_link) . '">' . esc_html($title ?: __('(Sans titre)', 'planpostplugin')) . '</a>';
@@ -128,7 +121,7 @@ if (!function_exists('planpostplugin_get_scheduled_posts_table_html')) {
                 echo '</tr>';
             }
         } else {
-            echo '<tr><td colspan="6">' . esc_html__('Aucun article planifié.', 'planpostplugin') . '</td></tr>';
+            echo '<tr><td colspan="5">' . esc_html__('Aucun article planifié.', 'planpostplugin') . '</td></tr>';
         }
 
         echo '</tbody>';
