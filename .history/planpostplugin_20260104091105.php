@@ -2,7 +2,7 @@
 /**
  * Plugin Name: PlanPost Plugin — Posts planifiés
  * Description: Affiche les articles planifiés (ID, Titre, Date, Date GMT) via une page d'admin et un shortcode.
-\11.0.5
+ * Version: 1.0.4
  * Author: PlanPost
  * Text Domain: planpostplugin
  * Requires at least: 5.2

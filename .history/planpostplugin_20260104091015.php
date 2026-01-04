@@ -2,7 +2,7 @@
 /**
  * Plugin Name: PlanPost Plugin — Posts planifiés
  * Description: Affiche les articles planifiés (ID, Titre, Date, Date GMT) via une page d'admin et un shortcode.
-\11.0.5
+ * Version: 1.0.4
  * Author: PlanPost
  * Text Domain: planpostplugin
  * Requires at least: 5.2
@@ -40,9 +40,7 @@ if (!function_exists('planpostplugin_get_scheduled_posts_table_html')) {
     function planpostplugin_get_scheduled_posts_table_html(): string
     {
         // Get all post types (including custom post types, even if not public)
-        // Exclude built-in types that shouldn't be scheduled:
-        // - attachment (médias/images)
-        // - revision, nav_menu_item, custom_css, customize_changeset, oembed_cache, user_request, wp_block
+        // Exclude built-in types that shouldn't be scheduled (attachment, revision, nav_menu_item)
         $excluded_types = ['attachment', 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block'];
         $all_post_types = get_post_types([], 'names');
         $post_types = array_diff($all_post_types, $excluded_types);
